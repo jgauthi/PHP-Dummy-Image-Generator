@@ -22,8 +22,63 @@ This script handles the following parameters, where basically all of them are op
 
 All default value is set on [config.ini](./config.ini), you can edit this file for your project, and add several parameters for different folders (you must create new section on ini file).
 
-## License
+
+## Htaccess Url Rules
+### Auto-Image with custom name / size
+If you use apache, a [.htaccess](./.htaccess) is available with these rules:
+
+```text
+IMG name files:
+[text].[type]
+[width]x[height].[type]
+[text]-[width]x[height].[type]
+```
+
+Examples:
+
+```html
+Classic usage on root folder:
+<img src="folder-image/Hello_World.jpg" alt="Hello World"><br>
+<img src="folder-image/300x800.jpg" alt="Custom size: 300x800"><br>
+<img src="folder-image/Hello_World-200x150.jpg" alt="Hello World with custom size: 200x150">
+```
+
+
+### Virtual support folder and sub folder with specific rules (optional)
+You can use the [.htaccess](./.htaccess) rules for support **virtual folder and sub folder** (IMG use precedents name convention):
+
+```text
+[folder-cfg OR folder name]/[img]
+[folder name]/[folder-cfg OR folder name]/[img]
+[folder name]/[folder name]/[folder-cfg OR folder name]/[img]
+[folder name]/[folder name]/[folder name]/[folder-cfg OR folder name]/[img]
+```
+
+```html
+Folder and Sub folder support (ini cfg support on last folder name):
+<img src="folder-image/thumb/Lorem_Ipsu.jpg" alt="Lorem_Ipsu in thumb folder">
+<img src="folder-image/any/virtual/folder/thumb/150x100.jpg" alt="150x100 in any/virtual/folder/thumb folder">
+```
+
+You can add specific parameters _(size, bgcolor, etc)_ for a folder with a CFG configuration in [config.ini](./config.ini) file. Example (cfg rule "thumb"):
+
+```ini
+; Setting by default
+[default]
+;...
+
+; Setting for folder with name "thumb"
+[thumb]
+size=150x100
+bg_color=3322ff
+text_color=ffffff
+text_value=[WIDTH]×[HEIGHT]
+type=jpg
+font=RobotoMono-Regular.ttf
+```
+
+
+## License & Credits
 Please see the [license file](./LICENSE) for more information.
 
-### Credits
 Original idea by [Russel Heimlich](https://github.com/kingkool68/). When I first published this script, [DummyImage.com](https://dummyimage.com) was not Open Source, so I had to write a small script to replace the function on my own server.

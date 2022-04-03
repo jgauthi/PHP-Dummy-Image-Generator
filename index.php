@@ -19,7 +19,7 @@ $config = !empty($config[$cfgParameter]) ? $config[$cfgParameter] : $config['def
 
 // Handle the “size” parameter
 $size = $config['size'];
-if (isset($_GET['size'])) {
+if (!empty($_GET['size'])) {
     $size = $_GET['size'];
 }
 list($imgWidth, $imgHeight) = explode('x', $size.'x');
