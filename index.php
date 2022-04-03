@@ -13,7 +13,8 @@
  */
 
 // Handle the “size” parameter
-$size = '640x480';
+$config = parse_ini_file(__DIR__.'/config.ini');
+$size = $config['size'];
 if (isset($_GET['size'])) {
     $size = $_GET['size'];
 }
@@ -35,13 +36,17 @@ if (false === filter_var($imgHeight, FILTER_VALIDATE_INT, $filterOptions)) {
 }
 
 // Handle the “type” parameter
-$type = 'png';
+$type = $config['type'];
 if (isset($_GET['type']) && in_array(strtolower($_GET['type']), ['png', 'gif', 'jpg', 'jpeg'])) {
     $type = strtolower($_GET['type']);
 }
 
 // Handle the “text” parameter
-$text = $imgWidth.'×'.$imgHeight;
+$text = str_replace(
+    ['[WIDTH]', '[HEIGHT]', '[TYPE]'],
+    [$imgWidth, $imgHeight, $type],
+    $config['text_value']
+);
 if (isset($_GET['text']) && strlen($_GET['text'])) {
     $text = filter_var(trim($_GET['text']), FILTER_SANITIZE_STRING);
 }
@@ -52,7 +57,7 @@ if ('UTF-8' !== $encoding) {
 $text = mb_encode_numericentity($text, [0x0, 0xFFFF, 0, 0xFFFF], 'UTF-8');
 
 // Handle the “bg” parameter
-$bg = '0099ff';
+$bg = $config['bg_color'];
 if (isset($_GET['bg']) && (6 === strlen($_GET['bg']) || 3 === strlen($_GET['bg']))) {
     $bg = strtoupper($_GET['bg']);
     if (3 === strlen($_GET['bg'])) {
@@ -68,7 +73,7 @@ if (isset($_GET['bg']) && (6 === strlen($_GET['bg']) || 3 === strlen($_GET['bg']
 list($bgRed, $bgGreen, $bgBlue) = sscanf($bg, '%02x%02x%02x');
 
 // Handle the “color” parameter
-$color = 'FFFFFF';
+$color = $config['text_color'];
 if (isset($_GET['color']) && (6 === strlen($_GET['color']) || 3 === strlen($_GET['color']))) {
     $color = strtoupper($_GET['color']);
     if (3 === strlen($_GET['color'])) {
@@ -84,9 +89,12 @@ if (isset($_GET['color']) && (6 === strlen($_GET['color']) || 3 === strlen($_GET
 list($colorRed, $colorGreen, $colorBlue) = sscanf($color, '%02x%02x%02x');
 
 // Define the typeface settings
-$fontFile = realpath(__DIR__).DIRECTORY_SEPARATOR.'RobotoMono-Regular.ttf';
-if (!is_readable($fontFile)) {
-    $fontFile = 'arial';
+$fontFile = 'arial';
+if (!empty($config['font'])) {
+    $fontConfigured = realpath(__DIR__).DIRECTORY_SEPARATOR.$config['font'];
+    if (is_readable($fontConfigured)) {
+        $fontFile = $fontConfigured;
+    }
 }
 
 $fontSize = round(($imgWidth - 50) / 8);
@@ -116,6 +124,7 @@ $textY = ($imgHeight + $textHeight) / 2;
 imagettftext($image, $fontSize, 0, $textX, $textY, $colorFill, $fontFile, $text);
 
 // Return the image and destroy it afterwards
+header('HTTP/1.1 201 Created');
 switch ($type) {
     case 'png':
         header('Content-Type: image/png');
