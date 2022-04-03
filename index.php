@@ -8,12 +8,16 @@
  * @author  Fabian Beiner <fb@fabianbeiner.de>
  * @contrib Jgauthi <github.com/jgauthi>
  * @license MIT
- * @see    https://github.com/FabianBeiner/PHP-Dummy-Image-Generator/
+ * @see     https://github.com/FabianBeiner/PHP-Dummy-Image-Generator/
  * @version 0.3.1 <2020-04-03>
  */
 
+// Config parameters
+$cfgParameter = (!empty($_GET['cfg']) ? $_GET['cfg'] : 'default');
+$config = parse_ini_file(__DIR__.'/config.ini', true);
+$config = !empty($config[$cfgParameter]) ? $config[$cfgParameter] : $config['default'];
+
 // Handle the “size” parameter
-$config = parse_ini_file(__DIR__.'/config.ini');
 $size = $config['size'];
 if (isset($_GET['size'])) {
     $size = $_GET['size'];

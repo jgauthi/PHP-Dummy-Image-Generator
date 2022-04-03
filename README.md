@@ -5,7 +5,11 @@
 Just link to the `index.php` file via the HTML `<img>` element. For example, would create a PNG image with red (#f00) background, white (#ffffff) text, the word “Dummy” written on it and a size of 500px width, 250px height.
 
 ```html
+Classic usage:
 <img src="folder-image/?size=500x250&type=png&bg=f00&color=ffffff&text=Dummy" alt="Dummy Image">
+
+Image with specific default value: 
+<img src="folder-image/?cfg=folder_thumb" alt="Dummy Image">
 ```
 
 This script handles the following parameters, where basically all of them are optional.
@@ -16,7 +20,7 @@ This script handles the following parameters, where basically all of them are op
 * `color` *(default: FFFFFF)* — Examples:<br>000 (= #000000 as font color)<br>FFFFFF (= #FFFFFF as font color)
 * `text` *(default: {WidthOfTheImage}×{HightOfTheImage})* — Examples:<br>Lore Ipsum (= Image has Lore Ipsum written on it)
 
-All default value is set on [config.ini](./config.ini), you can edit this file for your project.
+All default value is set on [config.ini](./config.ini), you can edit this file for your project, and add several parameters for different folders (you must create new section on ini file).
 
 ## License
 Please see the [license file](./LICENSE) for more information.
