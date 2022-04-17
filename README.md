@@ -23,7 +23,7 @@ This script handles the following parameters, where basically all of them are op
 All default value is set on [config.ini](./config.ini), you can edit this file for your project, and add several parameters for different folders (you must create new section on ini file).
 
 
-## Htaccess Url Rules
+## Htaccess Url Rules (apache)
 ### Auto-Image with custom name / size
 If you use apache, a [.htaccess](./.htaccess) is available with these rules:
 
@@ -75,6 +75,32 @@ text_color=ffffff
 text_value=[WIDTH]×[HEIGHT]
 type=jpg
 font=RobotoMono-Regular.ttf
+```
+
+## Url Rules and virtual folder with Local php-server
+If you use local php-server, you can create a file [router.php](./example_phpserver_router.php) on your project on public/web folder _(this file use your index.php)_, and edit this file for use it.
+
+```php
+// Edit this const
+const ROUTER_EXPREG = '#^(/images/)(film)?/?#i';
+const FULLPATH_DUMMY_IMG_GENERATOR = '/path/to/PHP-Dummy-Image-Generator/index.php';
+
+if (preg_match(ROUTER_EXPREG, $_SERVER['REQUEST_URI'], $extract)) {
+    $_GET['cfg'] = $extract[2];
+    // var_dump($extract);return true; // debug
+    require_once FULLPATH_DUMMY_IMG_GENERATOR;
+    return true;
+
+} //...
+```
+
+You can add several condition for each url rules, add CFG folder on [config.ini](./config.ini) and edit the router template (for more details, look at _Virtual support folder and sub folder with specific rules_).  
+For use this router.php, you must launch for start the php-server:
+
+```shell
+cd root_project/public
+# Or web folder, depending on your project
+php -S localhost:8000 router.php
 ```
 
 

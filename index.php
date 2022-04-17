@@ -8,8 +8,8 @@
  * @author  Fabian Beiner <fb@fabianbeiner.de>
  * @contrib Jgauthi <github.com/jgauthi>
  * @license MIT
- * @see     https://github.com/FabianBeiner/PHP-Dummy-Image-Generator/
- * @version 0.3.1 <2020-04-03>
+ * @see     https://github.com/jgauthi/PHP-Dummy-Image-Generator
+ * @version 1.1
  */
 
 // Config parameters
