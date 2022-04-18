@@ -9,7 +9,7 @@
  * @contrib Jgauthi <github.com/jgauthi>
  * @license MIT
  * @see     https://github.com/jgauthi/PHP-Dummy-Image-Generator
- * @version 1.1
+ * @version 1.2
  */
 
 // Config parameters

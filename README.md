@@ -104,6 +104,36 @@ php -S localhost:8000 router.php
 ```
 
 
+## Url Rules and virtual folder with NGINX
+On your project, you can add a [new site configuration](./example_nginx_site.conf), with a specific domain _(or specific virtual folder)_ who support image generator and virtual folder. On this file, you must edit the values: _server_name (url domain), log location, root path to Dummy Image Generator, php-fpm usage_.
+
+If you use Docker-compose, `docker-compose.yml` example modification:
+
+```yaml
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - 80
+    volumes:
+      - ./local/path/to/Dummy-Image-Generator:/path/in/docker/to/Dummy-Image-Generator
+      - ./local/path/to/nginx/sites:/etc/nginx/sites-enabled
+      # ...
+    links:
+      - php
+    labels:
+      traefik.enable: 1
+      traefik.http.port: 80
+      traefik.http.frontend.rule: "HostRegexp:your-site.localhost.tv,static.localhost.tv"
+      # ...
+
+  php:
+    image: php:8-fpm
+    volumes:
+      - ./local/path/to/Dummy-Image-Generator:/path/in/docker/to/Dummy-Image-Generator
+      # ...
+```
+
 ## License & Credits
 Please see the [license file](./LICENSE) for more information.
 
