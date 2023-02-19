@@ -9,7 +9,7 @@
  * @contrib Jgauthi <github.com/jgauthi>
  * @license MIT
  * @see     https://github.com/jgauthi/PHP-Dummy-Image-Generator
- * @version 1.2
+ * @version 1.2.1
  */
 
 // Config parameters
@@ -47,8 +47,8 @@ if (isset($_GET['type']) && in_array(strtolower($_GET['type']), ['png', 'gif', '
 
 // Handle the “text” parameter
 $text = str_replace(
-    ['[WIDTH]', '[HEIGHT]', '[TYPE]'],
-    [$imgWidth, $imgHeight, $type],
+    ['[WIDTH]', '[HEIGHT]', '[TYPE]', '[FILENAME]'],
+    [$imgWidth, $imgHeight, $type, basename($_SERVER['PHP_SELF'])],
     $config['text_value']
 );
 if (isset($_GET['text']) && strlen($_GET['text'])) {

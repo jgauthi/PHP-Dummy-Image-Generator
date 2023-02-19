@@ -24,6 +24,27 @@ All default value is set on [config.ini](./config.ini), you can edit this file f
 
 
 ## Htaccess Url Rules (apache)
+Several options:
+
+1. Edition .htaccess project
+2. Symbolic link (`ln -s  /var/.../PHP-Dummy-Image-Generator/ project/images_folder`)
+3. You can edit the apache site file for configure the relative url:
+
+```apache-conf
+<VirtualHost *:8081>
+	# ...
+
+	Alias /images "/var/www/project_name/tools/PHP-Dummy-Image-Generator/index.php"
+    <Directory "/var/www/project_name/tools/PHP-Dummy-Image-Generator">
+		Options Indexes FollowSymLinks
+		Require all granted
+        FallbackResource /index.php
+    </Directory>
+</VirtualHost>
+```
+
+
+
 ### Auto-Image with custom name / size
 If you use apache, a [.htaccess](./.htaccess) is available with these rules:
 
@@ -76,6 +97,11 @@ text_value=[WIDTH]×[HEIGHT]
 type=jpg
 font=RobotoMono-Regular.ttf
 ```
+
+In Text parameter, you can use these variables:
+* `[WIDTH]`, `[HEIGHT]`: Image values
+* `[TYPE]`: Image type (png, jpg)
+* `[FILENAME]`: Filename image
 
 ## Url Rules and virtual folder with Local php-server
 If you use local php-server, you can create a file [router.php](./example_phpserver_router.php) on your project on public/web folder _(this file use your index.php)_, and edit this file for use it.
